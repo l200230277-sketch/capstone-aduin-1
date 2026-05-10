@@ -3,6 +3,7 @@ import AdminLayout from './components/AdminLayout.jsx'
 import { RequireAuth } from './components/RequireAuth.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Login from './pages/Login.jsx'
+import Register from './pages/Register.jsx'
 import Profile from './pages/Profile.jsx'
 import ReportDetail from './pages/ReportDetail.jsx'
 import Splash from './pages/Splash.jsx'
@@ -12,6 +13,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Splash />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       <Route element={<RequireAuth />}>
         <Route element={<AdminLayout />}>

@@ -4,8 +4,21 @@ const [infra, pelayanan, keamanan, lingkungan] = REPORT_CATEGORIES
 
 /** Data awal — statistik dan daftar mengikuti konteks aplikasi */
 export const initialReports = [
-  {
+    {
     id: '1',
+    tanggal: '2026-05-10',
+    tanggalLabel: '10 Mei 2026',
+    pelapor: 'Santo',
+    alamat: 'Jl. Merdeka No. 11',
+    judul: 'Kondisi jalan rt 01=5/rw 04 banyak lubang dan membahayakan pengendara',
+    deskripsi:
+      'Jalan berlubang di depan balai RT sehingga mengganggu akses warga dan rawan kecelakaan saat hujan. Mohon penanganan segera karena aku ingin jalannya tu baik dan benar dan juga agar enak untuk di.',
+    status: 'Belum diterima',
+    kategori: infra,
+    fotoLabel: '[Preview]',
+  },
+  {
+    id: '2',
     tanggal: '2026-04-29',
     tanggalLabel: '29 April 2026',
     pelapor: 'Andi',
@@ -18,7 +31,7 @@ export const initialReports = [
     fotoLabel: '[Preview]',
   },
   {
-    id: '2',
+    id: '3',
     tanggal: '2026-04-28',
     tanggalLabel: '28 April 2026',
     pelapor: 'Budi',
@@ -30,7 +43,7 @@ export const initialReports = [
     fotoLabel: '[Preview]',
   },
   {
-    id: '3',
+    id: '4',
     tanggal: '2026-04-27',
     tanggalLabel: '27 April 2026',
     pelapor: 'Citra',
@@ -43,7 +56,7 @@ export const initialReports = [
     fotoLabel: '[Preview]',
   },
   {
-    id: '4',
+    id: '5',
     tanggal: '2026-04-26',
     tanggalLabel: '26 April 2026',
     pelapor: 'Dedi',
@@ -55,7 +68,7 @@ export const initialReports = [
     fotoLabel: '[Preview]',
   },
   {
-    id: '5',
+    id: '6',
     tanggal: '2026-04-25',
     tanggalLabel: '25 April 2026',
     pelapor: 'Eka',
@@ -67,7 +80,7 @@ export const initialReports = [
     fotoLabel: '[Preview]',
   },
   {
-    id: '6',
+    id: '7',
     tanggal: '2026-04-24',
     tanggalLabel: '24 April 2026',
     pelapor: 'Fajar',

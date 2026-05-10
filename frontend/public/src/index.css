@@ -1,4 +1,4 @@
-/* Global ADUIN admin theme — warm brown gradient, responsive base */
+/* Global ADUIN theme — sama dengan admin (warm gradient + tipografi) */
 :root {
   --aduin-bg-topleft: #F3E3D0;
   --aduin-bg-mid: #AACDDC;
@@ -70,19 +70,6 @@ textarea {
   outline-offset: 2px;
 }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Tombol & input — dipakai beberapa halaman */
 .aduin-btn {
   border: none;
   border-radius: var(--aduin-radius-pill);
@@ -147,4 +134,20 @@ textarea {
 
 .aduin-link:hover {
   opacity: 0.92;
+}
+
+.aduin-logo {
+  font-family: var(--font-logo);
+  color: var(--aduin-text);
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  user-select: none;
+}
+
+.aduin-logo--large {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.aduin-logo--medium {
+  font-size: clamp(1.75rem, 5vw, 2.35rem);
 }

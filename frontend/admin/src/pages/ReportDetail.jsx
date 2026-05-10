@@ -40,7 +40,17 @@ export default function ReportDetail() {
 
   return (
     <div className="report-detail">
-      <div className="report-detail__pill">Detail Laporan</div>
+      <div className="report-detail__topbar">
+        <button
+          type="button"
+          className="report-detail__close"
+          onClick={() => navigate(-1)}
+          aria-label="Kembali"
+        >
+          Close
+        </button>
+        <div className="report-detail__pill">Detail Laporan</div>
+      </div>
 
       <article className="report-detail__card">
         <dl className="report-detail__list">
@@ -64,17 +74,25 @@ export default function ReportDetail() {
             <dt>Kategori</dt>
             <dd>{report.kategori}</dd>
           </div>
-          <div className="report-detail__row report-detail__row--block">
+          <div className="report-detail__row">
             <dt>Deskripsi</dt>
             <dd>{report.deskripsi}</dd>
+          </div>
+          <div className="report-detail__row">
+            <dt>Status</dt>
+            <dd>
+              <span
+                className={`report-detail__status-pill report-detail__status-pill--${badgeKind(
+                  report.status
+                )}`}
+              >
+                {report.status}
+              </span>
+            </dd>
           </div>
           <div className="report-detail__row report-detail__row--block">
             <dt>Foto</dt>
             <dd className="report-detail__foto">{report.fotoLabel}</dd>
-          </div>
-          <div className="report-detail__row">
-            <dt>Status</dt>
-            <dd>{report.status}</dd>
           </div>
         </dl>
 
@@ -142,4 +160,23 @@ export default function ReportDetail() {
       ) : null}
     </div>
   )
+}
+
+function badgeKind(status) {
+  switch (status) {
+    case 'Belum diterima':
+      return 'new'       
+
+    case 'Diterima':
+      return 'accepted'   
+
+    case 'Diproses':
+      return 'progress'   
+
+    case 'Selesai':
+      return 'done'       
+
+    default:
+      return 'new'
+  }
 }

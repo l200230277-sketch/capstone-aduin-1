@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { Logo } from './Logo.jsx'
 import { useSession } from '../context/SessionContext.jsx'
+import logo from '../assets/logo.png'
+
 import '../App.css'
 
 function IconReports() {
@@ -59,11 +60,34 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-shell">
+
+      {/* SIDEBAR */}
       <aside className="admin-shell__sidebar" aria-label="Navigasi utama">
+
+        {/* LOGO */}
         <div className="admin-shell__sidebar-brand">
-          <Logo size="small" />
+
+          <img
+            src={logo}
+            alt="ADUIN"
+            className="admin-shell__sidebar-logo"
+          />
+
+          <h1 className="admin-shell__sidebar-title">
+            ADUIN
+          </h1>
+
+          <p className="admin-shell__sidebar-subtitle">
+            Pusat Pengaduan
+            <br />
+            Masyarakat Desa Canden
+          </p>
+
         </div>
+
+        {/* NAVIGATION */}
         <nav className="admin-shell__nav">
+
           <NavLink
             to="/dashboard"
             end
@@ -71,26 +95,43 @@ export default function AdminLayout() {
               `admin-shell__nav-link${isActive ? ' active' : ''}`
             }
           >
-            <IconReports /> Data Laporan
+            <IconReports />
+            Data Laporan
           </NavLink>
+
           <NavLink
             to="/profil"
             className={({ isActive }) =>
               `admin-shell__nav-link${isActive ? ' active' : ''}`
             }
           >
-            <IconSettings /> Profil
+            <IconSettings />
+            Profil
           </NavLink>
+
         </nav>
-        <button type="button" className="admin-shell__logout" onClick={handleLogout}>
+
+        {/* LOGOUT */}
+        <button
+          type="button"
+          className="admin-shell__logout"
+          onClick={handleLogout}
+        >
           Keluar
         </button>
+
       </aside>
 
+      {/* MAIN CONTENT */}
       <div className="admin-shell__main-col">
+
+        {/* TOPBAR MOBILE */}
         <header className="admin-shell__topbar">
+
           <div className="admin-shell__topbar-inner">
+
             <div className="admin-shell__menu-wrap">
+
               <button
                 type="button"
                 className="admin-shell__icon-btn"
@@ -101,8 +142,10 @@ export default function AdminLayout() {
               >
                 <IconDots />
               </button>
+
               {menuOpen ? (
                 <div className="admin-shell__popover" role="menu">
+
                   <NavLink
                     to="/profil"
                     role="menuitem"
@@ -111,21 +154,40 @@ export default function AdminLayout() {
                   >
                     Profil
                   </NavLink>
-                  <button type="button" role="menuitem" className="admin-shell__popover-item" onClick={handleLogout}>
+
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className="admin-shell__popover-item"
+                    onClick={handleLogout}
+                  >
                     Keluar
                   </button>
+
                 </div>
               ) : null}
+
             </div>
-            <Logo size="small" />
+
+            {/* MOBILE LOGO */}
+            <img
+              src={logo}
+              alt="ADUIN"
+              className="admin-shell__mobile-logo"
+            />
+
           </div>
+
         </header>
 
+        {/* PAGE CONTENT */}
         <main className="admin-shell__content">
           <Outlet />
         </main>
 
+        {/* BOTTOM NAV MOBILE */}
         <nav className="admin-shell__bottom" aria-label="Navigasi bawah">
+
           <NavLink
             to="/dashboard"
             end
@@ -136,6 +198,7 @@ export default function AdminLayout() {
             <IconReports />
             <span>Laporan</span>
           </NavLink>
+
           <NavLink
             to="/profil"
             className={({ isActive }) =>
@@ -145,7 +208,9 @@ export default function AdminLayout() {
             <IconSettings />
             <span>Pengaturan</span>
           </NavLink>
+
         </nav>
+
       </div>
     </div>
   )

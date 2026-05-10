@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Logo } from '../components/Logo.jsx'
 import { useSession } from '../context/SessionContext.jsx'
 import '../App.css'
+import logo from '../assets/logo.png'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -12,7 +13,6 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-  // hapus session lama
   useEffect(() => {
     localStorage.removeItem('currentUser')
   }, [])
@@ -20,7 +20,6 @@ export default function Login() {
   function handleSubmit(e) {
     e.preventDefault()
 
-    // validasi kosong
     if (!username && !password) {
       setError('Masukkan username dan password')
       return
@@ -36,26 +35,22 @@ export default function Login() {
       return
     }
 
-    // akun admin tetap
     const adminData = {
       username: 'admin',
       email: 'admin@gmail.com',
       password: '1234',
     }
 
-    // username salah
     if (username !== adminData.username) {
       setError('Username salah')
       return
     }
 
-    // password salah
     if (password !== adminData.password) {
       setError('Password salah')
       return
     }
 
-    // login berhasil
     setError('')
 
     login({
@@ -68,21 +63,24 @@ export default function Login() {
       JSON.stringify(adminData)
     )
 
-    navigate('/dashboard', {
-      replace: true,
-    })
+    navigate('/dashboard', { replace: true })
   }
 
   return (
     <div className="login-page">
       <header className="login-page__header">
-        <Logo size="medium" />
+        <div className="login-page__brand">
+          <img
+            src={logo}
+            alt="ADUIN Logo"
+            className="login-page__logo-img"
+          />
+          <Logo size="large" />
+        </div>
       </header>
 
       <main className="login-page__main">
-        <h1 className="login-page__title">
-          Login Admin
-        </h1>
+
 
         <form
           className="login-page__form"
@@ -93,7 +91,6 @@ export default function Login() {
             <span className="visually-hidden">
               Username
             </span>
-
             <input
               className="aduin-input"
               name="username"
@@ -110,7 +107,6 @@ export default function Login() {
             <span className="visually-hidden">
               Password
             </span>
-
             <input
               className="aduin-input"
               name="password"
@@ -124,7 +120,6 @@ export default function Login() {
             />
           </label>
 
-          {/* ERROR */}
           {error && (
             <p className="login-page__error">
               {error}

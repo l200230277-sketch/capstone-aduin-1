@@ -21,7 +21,7 @@ export default function Splash() {
         <div className="splash-page__brand">
           <Logo size="large" />
           <p className="splash-page__tagline">
-            Pusat pengaduan masyarakat
+            Pusat pengaduan masyarakat Desa Canden
           </p>
         </div>
 
@@ -33,10 +33,15 @@ export default function Splash() {
           >
             Login
           </button>
+
+          <button
+            type="button"
+            className="aduin-btn aduin-btn--primary splash-page__signup"
+            onClick={() => navigate('/register')}
+          >
+            Sign Up
+          </button>
         </div>
-
-        <p className="splash-page__footer">@aduin</p>
-
       </div>
     </div>
   )

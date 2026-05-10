@@ -1,9 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import defaultAvatar from '../assets/default-avatar.png'
-import totalLaporanIcon from '../assets/total-laporan.png'
-import laporanSelesaiIcon from '../assets/laporan-selesai.png'
-import waktuResponIcon from '../assets/waktu-respon.png'
 import riwayatIcon from '../assets/riwayat.png'
 import insightIcon from '../assets/insight.png'
 import kategoriTerbanyakIcon from '../assets/kategori-terbanyak.png'
@@ -13,12 +10,6 @@ import { useSession } from '../context/SessionContext.jsx'
 import '../App.css'
 
 // ── Data dummy – ganti dengan data real dari API/context kamu ──
-const DUMMY_STATS = {
-  totalLaporan: 128,
-  selesai: 92,
-  rataRataRespon: '2,3 hari',
-}
-
 const DUMMY_AKTIVITAS = [
   { id: 1, aksi: 'Laporan #128 diverifikasi', waktu: '5 menit lalu' },
   { id: 2, aksi: 'Laporan #127 ditandai selesai', waktu: '1 jam lalu' },
@@ -109,11 +100,6 @@ export default function Profile() {
     window.addEventListener('click', handler)
     return () => window.removeEventListener('click', handler)
   }, [])
-
-  // progress selesai
-  const pctSelesai = DUMMY_STATS.totalLaporan
-    ? Math.round((DUMMY_STATS.selesai / DUMMY_STATS.totalLaporan) * 100)
-    : 0
 
   return (
     <div className="profile-page">
@@ -224,75 +210,6 @@ export default function Profile() {
       />
 
       {/* ════════════════════════════════
-          STATISTIK
-      ════════════════════════════════ */}
-      <div className="profile-page__stats">
-
-        {/* Total Laporan */}
-        <div className="stat-card stat-card--blue">
-          <div className="stat-card__icon">
-            <img src={totalLaporanIcon} alt="Total Laporan" />
-          </div>
-
-          <div className="stat-card__body">
-            <span className="stat-card__label">
-              Total Laporan
-            </span>
-
-            <span className="stat-card__value">
-              {DUMMY_STATS.totalLaporan}
-            </span>
-          </div>
-        </div>
-
-        {/* Selesai */}
-        <div className="stat-card stat-card--green">
-          <div className="stat-card__icon">
-            <img src={laporanSelesaiIcon} alt="Laporan Selesai" />
-          </div>
-
-          <div className="stat-card__body">
-            <span className="stat-card__label">
-              Selesai
-            </span>
-
-            <span className="stat-card__value">
-              {DUMMY_STATS.selesai}
-            </span>
-
-            <div className="stat-card__bar-wrap">
-              <div
-                className="stat-card__bar"
-                style={{ width: `${pctSelesai}%` }}
-              />
-            </div>
-
-            <span className="stat-card__pct">
-              {pctSelesai}% dari total
-            </span>
-          </div>
-        </div>
-
-        {/* Waktu Respon */}
-        <div className="stat-card stat-card--orange">
-          <div className="stat-card__icon">
-            <img src={waktuResponIcon} alt="Waktu Respon" />
-          </div>
-
-          <div className="stat-card__body">
-            <span className="stat-card__label">
-              Waktu Respon
-            </span>
-
-            <span className="stat-card__value">
-              {DUMMY_STATS.rataRataRespon}
-            </span>
-          </div>
-        </div>
-
-      </div>
-
-      {/* ════════════════════════════════
           BAWAH
       ════════════════════════════════ */}
       <div className="profile-page__bottom">
@@ -326,7 +243,6 @@ export default function Profile() {
             ))}
           </ul>
         </section>
-
         {/* Insight */}
         <section className="profile-page__insight">
           <h2 className="section-title profile-page__section-with-icon">
@@ -349,7 +265,7 @@ export default function Profile() {
 
             <div className="insight-card__body">
               <span className="insight-card__label">
-                Laporan terbanyak
+                Laporan terbanyak{' '}
               </span>
 
               <span className="insight-card__value">
@@ -369,7 +285,7 @@ export default function Profile() {
 
             <div className="insight-card__body">
               <span className="insight-card__label">
-                Dusun aduan tertinggi
+                Dusun aduan tertinggi{' '}
               </span>
 
               <span className="insight-card__value">
@@ -384,7 +300,6 @@ export default function Profile() {
           >
             Lihat semua laporan →
           </Link>
-
         </section>
       </div>
     </div>
