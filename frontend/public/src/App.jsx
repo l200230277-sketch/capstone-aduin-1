@@ -104,15 +104,20 @@ function App() {
 
   /* BUAT LAPORAN */
   const handleSubmitReport = (report) => {
+    const now = new Date()
+    const datePart = now.toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+    const hh = String(now.getHours()).padStart(2, '0')
+    const mm = String(now.getMinutes()).padStart(2, '0')
+
     const newReport = {
       ...report,
       id: Date.now(),
       user: user.username,
-      date: new Date().toLocaleDateString('id-ID', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      }),
+      date: `${datePart} • ${hh}:${mm} WIB`,
 
       /*
         STATUS AWAL:
@@ -259,10 +264,11 @@ function App() {
     home: (
       <HomePage
         greeting={greeting}
+        user={user}
         stats={stats}
         reports={myReports}
         onDeleteReport={handleDeleteReport}
-        onCreateReport={() => setScreen('report')}
+        onOpenProfile={() => setScreen('profile')}
       />
     ),
 

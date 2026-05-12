@@ -16,6 +16,9 @@ function BottomNav({ screen, onNavigate, onLogout }) {
         <div className="aduin-logo aduin-logo--large sidebar-title">
           ADUIN
         </div>
+        <p className="sidebar-tagline">
+          Pusat Pengaduan Masyarakat Desa Canden
+        </p>
       </div>
 
       <div className="sidebar-menu">

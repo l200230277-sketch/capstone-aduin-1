@@ -92,6 +92,8 @@ function LoginPage({ onSubmit, onSignup }) {
             Belum punya akun? Buat Akun
           </button>
         </div>
+
+        <p className="public-landing__footer">@aduin2026</p>
       </form>
     </section>
   )

@@ -1,231 +1,122 @@
 import { useState } from 'react'
 import backIcon from '../assets/logo-kembali.png'
 import defaultAvatar from '../assets/default-avatar.png'
+import namaIcon from '../assets/nama-pengguna.png'
+import alamatIcon from '../assets/alamat.png'
+import teleponIcon from '../assets/nomor-telepon.png'
+import statusIcon from '../assets/status.png'
+import editProfilIcon from '../assets/edit-profil.png'
 
-function ProfilePage({
-  user,
-  onBack,
-  onPhotoChange,
-  onUpdateProfile,
-}) {
-  const [isEditing, setIsEditing] =
-    useState(false)
-
-  const [address, setAddress] =
-    useState(user.address || '')
-
-  const [phone, setPhone] =
-    useState(
-      user.phone?.startsWith('+62')
-        ? user.phone
-        : '+62'
-    )
-
-  const [errorMessage, setErrorMessage] =
-    useState('')
+function ProfilePage({ user, onBack, onPhotoChange, onUpdateProfile }) {
+  const [isEditing, setIsEditing] = useState(false)
+  const [address, setAddress] = useState(user.address || '')
+  const [phone, setPhone] = useState(
+    user.phone?.startsWith('+62') ? user.phone : '+62'
+  )
+  const [errorMessage, setErrorMessage] = useState('')
 
   const showError = (message) => {
     setErrorMessage(message)
-
-    setTimeout(() => {
-      setErrorMessage('')
-    }, 3000)
+    setTimeout(() => setErrorMessage(''), 3000)
   }
 
   const handlePhoneChange = (value) => {
-    let cleaned =
-      value.replace(/[^\d+]/g, '')
-
-    /* WAJIB DIAWALI +62 */
+    let cleaned = value.replace(/[^\d+]/g, '')
     if (!cleaned.startsWith('+62')) {
-      cleaned =
-        '+62' +
-        cleaned.replace(/^\+?62?/, '')
+      cleaned = '+62' + cleaned.replace(/^\+?62?/, '')
     }
-
-    /* BATAS PANJANG */
     if (cleaned.length > 15) return
-
     setPhone(cleaned)
   }
 
   const handleSaveProfile = () => {
-    if (!address.trim()) {
-      showError('Alamat wajib diisi')
-      return
+    if (!address.trim()) { showError('Alamat wajib diisi'); return }
+    if (phone.length < 11 || !phone.startsWith('+62')) {
+      showError('Nomor telepon harus diawali +62 dan valid'); return
     }
-
-    if (
-      phone.length < 11 ||
-      !phone.startsWith('+62')
-    ) {
-      showError(
-        'Nomor telepon harus diawali +62 dan valid'
-      )
-      return
-    }
-
-    if (onUpdateProfile) {
-      onUpdateProfile({
-        address: address.trim(),
-        phone,
-      })
-    }
-
+    if (onUpdateProfile) onUpdateProfile({ address: address.trim(), phone })
     setIsEditing(false)
-
     alert('Profil berhasil diperbarui!')
   }
 
+  const fields = [
+    { icon: namaIcon,    label: 'Nama Pengguna', value: user.name,              editable: false },
+    { icon: alamatIcon,  label: 'Alamat',        value: user.address || 'Belum diisi', editable: true,
+      editEl: <input type="text" className="profile-edit-input" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Masukkan alamat" /> },
+    { icon: teleponIcon, label: 'Nomor Telepon', value: user.phone  || 'Belum diisi', editable: true,
+      editEl: <input type="text" className="profile-edit-input" value={phone}   onChange={(e) => handlePhoneChange(e.target.value)} placeholder="+628123456789" /> },
+    { icon: statusIcon,  label: 'Status',        value: user.role   || 'Pelapor',     editable: false },
+  ]
+
   return (
-    <section className="public-screen">
-      {/* HEADER */}
-      <div className="top-row">
-        <button
-          className="icon-btn icon-btn--image"
-          type="button"
-          onClick={onBack}
-          aria-label="Kembali"
-        >
-          <img
-            src={backIcon}
-            alt="Kembali"
-            className="back-icon-img"
-          />
+    <section className="profile-screen">
+
+      {/* TOPBAR — pojok kiri */}
+      <div className="profile-topbar">
+        <button className="profile-back-btn" type="button" onClick={onBack} aria-label="Kembali">
+          <img src={backIcon} alt="Kembali" className="profile-back-icon" />
         </button>
-
-        <h1 className="page-header-title">
-          Profil
-        </h1>
-      </div>
-
-      {/* ERROR POPUP */}
-      {errorMessage && (
-        <div className="popup-error">
-          {errorMessage}
+        <div>
+          <h1 className="profile-topbar__title">Profil</h1>
+          <p className="profile-topbar__sub">Kelola informasi akun Anda</p>
         </div>
-      )}
-
-      {/* FOTO + USER */}
-      <div className="profile-header">
-        <label className="avatar-wrapper">
-          {user.photo ? (
-            <img
-              src={user.photo}
-              alt="Foto Profil"
-              className="profile-photo"
-            />
-          ) : (
-            <div className="avatar">
-              <img
-                src={defaultAvatar}
-                alt="Default Avatar"
-                className="default-avatar-img"
-              />
-            </div>
-          )}
-
-          <input
-            type="file"
-            accept="image/*"
-            className="upload-photo-input"
-            onChange={(event) => {
-              const file =
-                event.target.files?.[0]
-
-              if (file && onPhotoChange) {
-                onPhotoChange(
-                  URL.createObjectURL(file)
-                )
-              }
-            }}
-          />
-        </label>
-
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
       </div>
 
-      {/* CARD PROFIL */}
-      <div className="compact-profile-card">
-        <article className="profile-detail">
-          <p>
-            <strong>Nama Pengguna</strong>
-            <span>{user.name}</span>
-          </p>
+      {errorMessage && <div className="popup-error profile-error">{errorMessage}</div>}
 
-          <p>
-            <strong>Alamat</strong>
+      {/* BODY: avatar kiri, card kanan */}
+      <div className="profile-body">
 
-            {isEditing ? (
-              <input
-                type="text"
-                className="profile-edit-input"
-                value={address}
-                onChange={(e) =>
-                  setAddress(e.target.value)
-                }
-                placeholder="Masukkan alamat"
-              />
-            ) : (
-              <span>
-                {user.address ||
-                  'Belum diisi'}
-              </span>
-            )}
-          </p>
+        {/* KIRI — avatar */}
+        <div className="profile-left">
+          <label className="profile-avatar-wrap">
+            <img
+              src={user.photo || defaultAvatar}
+              alt="Foto Profil"
+              className="profile-avatar-img"
+            />
+            <input
+              type="file" accept="image/*" className="upload-photo-input"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file && onPhotoChange) onPhotoChange(URL.createObjectURL(file))
+              }}
+            />
+          </label>
+          <h2 className="profile-avatar-name">{user.name}</h2>
+          <p className="profile-avatar-email">{user.email}</p>
+        </div>
 
-          <p>
-            <strong>Nomor Telepon</strong>
+        {/* KANAN — card + button */}
+        <div className="profile-right">
+          <div className="profile-card">
+            {fields.map((f, i) => (
+              <div key={i} className={`profile-row${i < fields.length - 1 ? ' profile-row--border' : ''}`}>
+                <div className="profile-row__icon-wrap">
+                  <img src={f.icon} alt="" aria-hidden className="profile-row__icon" />
+                </div>
+                <div className="profile-row__body">
+                  <span className="profile-row__label">{f.label}</span>
+                  {isEditing && f.editable ? f.editEl : (
+                    <span className="profile-row__value">{f.value}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
 
-            {isEditing ? (
-              <input
-                type="text"
-                className="profile-edit-input"
-                value={phone}
-                onChange={(e) =>
-                  handlePhoneChange(
-                    e.target.value
-                  )
-                }
-                placeholder="+628123456789"
-              />
-            ) : (
-              <span>
-                {user.phone ||
-                  'Belum diisi'}
-              </span>
-            )}
-          </p>
-
-          <p>
-            <strong>Status</strong>
-            <span>
-              {user.role || 'Pelapor'}
-            </span>
-          </p>
-        </article>
-
-        {/* BUTTON */}
-        {isEditing ? (
           <button
             type="button"
-            className="profile-save-btn"
-            onClick={handleSaveProfile}
+            className="profile-action-btn"
+            onClick={isEditing ? handleSaveProfile : () => setIsEditing(true)}
           >
-            Simpan Profil
+            {!isEditing && (
+              <img src={editProfilIcon} alt="" aria-hidden className="profile-action-btn__icon" />
+            )}
+            {isEditing ? 'Simpan Profil' : 'Edit Profil'}
           </button>
-        ) : (
-          <button
-            type="button"
-            className="profile-save-btn"
-            onClick={() =>
-              setIsEditing(true)
-            }
-          >
-            Edit Profil
-          </button>
-        )}
+        </div>
+
       </div>
     </section>
   )
