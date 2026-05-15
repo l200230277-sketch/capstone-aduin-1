@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useReports } from '../context/ReportsContext.jsx'
 import { REPORT_CATEGORIES } from '../data/categories.js'
 import { REPORT_STATUSES } from '../data/statuses.js'
+import { labelTanggalUpdateSekarang } from '../utils/tanggalIndonesia.js'
 import '../App.css'
 
 export default function ReportDetail() {
@@ -24,6 +25,9 @@ export default function ReportDetail() {
     return null
   }
 
+  const fotoUrls = Array.isArray(report.fotoUrls) ? report.fotoUrls.filter(Boolean) : []
+  const username = report.usernamePelapor ?? report.pelapor
+
   function openDialog() {
     setDraftStatus(report.status)
     setDraftKategori(report.kategori)
@@ -31,10 +35,14 @@ export default function ReportDetail() {
   }
 
   function saveDialog() {
-    updateReport(report.id, {
+    const patch = {
       status: draftStatus,
       kategori: draftKategori,
-    })
+    }
+    if (draftStatus !== report.status) {
+      Object.assign(patch, labelTanggalUpdateSekarang())
+    }
+    updateReport(report.id, patch)
     setDialogOpen(false)
   }
 
@@ -56,16 +64,26 @@ export default function ReportDetail() {
         <dl className="report-detail__list">
           <div className="report-detail__row">
             <dt>Pelapor</dt>
-          <dd>{report.pelapor}</dd>
+            <dd>{report.pelapor}</dd>
+          </div>
+          <div className="report-detail__row">
+            <dt>Username pelapor</dt>
+            <dd>{username}</dd>
           </div>
           <div className="report-detail__row">
             <dt>Alamat</dt>
-          <dd>{report.alamat}</dd>
+            <dd>{report.alamat}</dd>
           </div>
           <div className="report-detail__row">
             <dt>Tanggal</dt>
             <dd>{report.tanggalLabel}</dd>
           </div>
+          {report.tanggalUpdateLabel ? (
+            <div className="report-detail__row">
+              <dt>Tanggal update</dt>
+              <dd>{report.tanggalUpdateLabel}</dd>
+            </div>
+          ) : null}
           <div className="report-detail__row">
             <dt>Judul</dt>
             <dd>{report.judul}</dd>
@@ -83,7 +101,7 @@ export default function ReportDetail() {
             <dd>
               <span
                 className={`report-detail__status-pill report-detail__status-pill--${badgeKind(
-                  report.status
+                  report.status,
                 )}`}
               >
                 {report.status}
@@ -92,7 +110,24 @@ export default function ReportDetail() {
           </div>
           <div className="report-detail__row report-detail__row--block">
             <dt>Foto</dt>
-            <dd className="report-detail__foto">{report.fotoLabel}</dd>
+            <dd className="report-detail__foto-wrap">
+              {fotoUrls.length > 0 ? (
+                <div className="report-detail__foto-grid">
+                  {fotoUrls.map((url) => (
+                    <div key={url} className="report-detail__foto-item">
+                      <a href={url} target="_blank" rel="noopener noreferrer" className="report-detail__foto-link">
+                        <img src={url} alt="Lampiran laporan" className="report-detail__foto-img" />
+                      </a>
+                      <a href={url} target="_blank" rel="noopener noreferrer" className="report-detail__foto-url">
+                        {url}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <span className="report-detail__foto">{report.fotoLabel}</span>
+              )}
+            </dd>
           </div>
         </dl>
 
@@ -165,17 +200,15 @@ export default function ReportDetail() {
 function badgeKind(status) {
   switch (status) {
     case 'Belum diterima':
-      return 'new'       
-
+      return 'new'
     case 'Diterima':
-      return 'accepted'   
-
+      return 'accepted'
     case 'Diproses':
-      return 'progress'   
-
+      return 'progress'
     case 'Selesai':
-      return 'done'       
-
+      return 'done'
+    case 'Ditolak':
+      return 'bad'
     default:
       return 'new'
   }

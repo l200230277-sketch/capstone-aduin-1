@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import BottomNav from './components/BottomNav'
+import MobileAppBar from './components/MobileAppBar'
 import HomePage from './pages/HomePage'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
@@ -11,6 +12,7 @@ import './App.css'
 
 function App() {
   const [screen, setScreen] = useState('landing')
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   /* USER LOGIN */
   const [user, setUser] = useState({
@@ -238,6 +240,11 @@ function App() {
     },
   ]
 
+  const navigateInApp = (next) => {
+    setMobileNavOpen(false)
+    setScreen(next)
+  }
+
   /* ROUTER */
   const screens = {
     landing: (
@@ -268,21 +275,21 @@ function App() {
         stats={stats}
         reports={myReports}
         onDeleteReport={handleDeleteReport}
-        onOpenProfile={() => setScreen('profile')}
+        onOpenProfile={() => navigateInApp('profile')}
       />
     ),
 
     report: (
       <ReportPage
         onSubmit={handleSubmitReport}
-        onBack={() => setScreen('home')}
+        onBack={() => navigateInApp('home')}
       />
     ),
 
     profile: (
       <ProfilePage
         user={user}
-        onBack={() => setScreen('home')}
+        onBack={() => navigateInApp('home')}
         onPhotoChange={handlePhotoChange}
         onUpdateProfile={handleUpdateProfile}
       />
@@ -293,12 +300,24 @@ function App() {
     screen
   )
 
+  useEffect(() => {
+    setMobileNavOpen(false)
+  }, [screen])
+
   return (
     <div
       className={`public-app${
         showNav ? ' public-app--with-nav' : ''
       }`}
     >
+      {showNav ? (
+        <MobileAppBar
+          user={user}
+          onOpenMenu={() => setMobileNavOpen(true)}
+          onOpenProfile={() => navigateInApp('profile')}
+        />
+      ) : null}
+
       <main className="public-main">
         {screens[screen]}
       </main>
@@ -306,8 +325,13 @@ function App() {
       {showNav && (
         <BottomNav
           screen={screen}
-          onNavigate={setScreen}
-          onLogout={handleLogout}
+          onNavigate={navigateInApp}
+          onLogout={() => {
+            setMobileNavOpen(false)
+            handleLogout()
+          }}
+          mobileOpen={mobileNavOpen}
+          onMobileClose={() => setMobileNavOpen(false)}
         />
       )}
     </div>

@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import Profile from './pages/Profile.jsx'
+import Arsip from './pages/Arsip.jsx'
 import ReportDetail from './pages/ReportDetail.jsx'
 import Splash from './pages/Splash.jsx'
 
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/laporan/:id" element={<ReportDetail />} />
           <Route path="/profil" element={<Profile />} />
+          <Route path="/arsip" element={<Arsip />} />
         </Route>
       </Route>
 

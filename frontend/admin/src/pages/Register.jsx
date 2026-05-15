@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Logo } from '../components/Logo.jsx'
 import '../App.css'
@@ -6,32 +6,44 @@ import logo from '../assets/logo.png'
 
 export default function Register() {
   const navigate = useNavigate()
+
   const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [password2, setPassword2] = useState('')
+
+  // pakai ref untuk field lain
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const password2Ref = useRef()
 
   function handleSubmit(e) {
     e.preventDefault()
+
+    const data = {
+      username,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      password2: password2Ref.current.value,
+    }
+
+    console.log(data)
+
     navigate('/login')
   }
 
   return (
     <div className="register-page">
       <header className="register-page__header">
-        {/* Logo gambar */}
         <img
           src={logo}
           alt="Logo ADUIN"
           className="register-page__logo"
         />
 
-        {/* Tulisan ADUIN */}
         <Logo size="large" />
       </header>
 
       <main className="register-page__main">
         <form className="register-page__form" onSubmit={handleSubmit} noValidate>
+          
           <label className="aduin-field">
             <span className="visually-hidden">Username</span>
             <input
@@ -52,8 +64,7 @@ export default function Register() {
               type="email"
               autoComplete="email"
               placeholder="masukkan email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              ref={emailRef}
             />
           </label>
 
@@ -65,8 +76,7 @@ export default function Register() {
               type="password"
               autoComplete="new-password"
               placeholder="masukkan password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              ref={passwordRef}
             />
           </label>
 
@@ -78,8 +88,7 @@ export default function Register() {
               type="password"
               autoComplete="new-password"
               placeholder="masukkan ulang password"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
+              ref={password2Ref}
             />
           </label>
 

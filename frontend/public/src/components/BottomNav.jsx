@@ -2,11 +2,31 @@
 import landingIllustration from '../assets/logo.png'
 import homeIcon from '../assets/logo-home.png'
 import laporanIcon from '../assets/logo-laporan.png'
-import settingIcon from '../assets/logo-setting.png'
+import settingIcon from '../assets/nama-pengguna.png'
 
-function BottomNav({ screen, onNavigate, onLogout }) {
+function BottomNav({
+  screen,
+  onNavigate,
+  onLogout,
+  mobileOpen = false,
+  onMobileClose,
+}) {
   return (
-    <aside className="bottom-nav">
+    <>
+      {mobileOpen ? (
+        <button
+          type="button"
+          className="bottom-nav__backdrop"
+          aria-label="Tutup menu"
+          onClick={onMobileClose}
+        />
+      ) : null}
+
+      <aside
+        className={`bottom-nav${
+          mobileOpen ? ' bottom-nav--open' : ''
+        }`}
+      >
       <div className="sidebar-brand">
         <img
           src={landingIllustration}
@@ -72,6 +92,7 @@ function BottomNav({ screen, onNavigate, onLogout }) {
         </button>
       </div>
     </aside>
+    </>
   )
 }
 

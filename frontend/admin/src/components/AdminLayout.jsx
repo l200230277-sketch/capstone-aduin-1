@@ -18,31 +18,46 @@ function IconReports() {
   )
 }
 
-function IconSettings() {
+function IconUser() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="2" />
       <path
-        d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path
-        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.758 1.098 1.4 1.2h.09a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+        d="M6 20c0-3.314 2.686-6 6-6s6 2.686 6 6"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
     </svg>
   )
 }
 
-function IconDots() {
+function IconArchive() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <circle cx="5" cy="12" r="2" />
-      <circle cx="12" cy="12" r="2" />
-      <circle cx="19" cy="12" r="2" />
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M4 7a2 2 0 012-2h12a2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path d="M8 11h8M8 15h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function IconHamburger() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M5 7h14M5 12h14M5 17h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function IconExit() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   )
 }
@@ -59,41 +74,35 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="admin-shell">
+    <div className={`admin-shell${menuOpen ? ' admin-shell--menu-open' : ''}`}>
+      {menuOpen ? (
+        <button
+          type="button"
+          className="admin-shell__drawer-backdrop"
+          aria-label="Tutup menu samping"
+          onClick={() => setMenuOpen(false)}
+        />
+      ) : null}
 
-      {/* SIDEBAR */}
       <aside className="admin-shell__sidebar" aria-label="Navigasi utama">
-
-        {/* LOGO */}
         <div className="admin-shell__sidebar-brand">
+          <img src={logo} alt="ADUIN" className="admin-shell__sidebar-logo" />
 
-          <img
-            src={logo}
-            alt="ADUIN"
-            className="admin-shell__sidebar-logo"
-          />
-
-          <h1 className="admin-shell__sidebar-title">
-            ADUIN
-          </h1>
+          <h1 className="admin-shell__sidebar-title">ADUIN</h1>
 
           <p className="admin-shell__sidebar-subtitle">
             Pusat Pengaduan
             <br />
             Masyarakat Desa Canden
           </p>
-
         </div>
 
-        {/* NAVIGATION */}
         <nav className="admin-shell__nav">
-
           <NavLink
             to="/dashboard"
             end
-            className={({ isActive }) =>
-              `admin-shell__nav-link${isActive ? ' active' : ''}`
-            }
+            className={({ isActive }) => `admin-shell__nav-link${isActive ? ' active' : ''}`}
+            onClick={() => setMenuOpen(false)}
           >
             <IconReports />
             Data Laporan
@@ -101,116 +110,78 @@ export default function AdminLayout() {
 
           <NavLink
             to="/profil"
-            className={({ isActive }) =>
-              `admin-shell__nav-link${isActive ? ' active' : ''}`
-            }
+            className={({ isActive }) => `admin-shell__nav-link${isActive ? ' active' : ''}`}
+            onClick={() => setMenuOpen(false)}
           >
-            <IconSettings />
+            <IconUser />
             Profil
           </NavLink>
 
+          <NavLink
+            to="/arsip"
+            className={({ isActive }) => `admin-shell__nav-link${isActive ? ' active' : ''}`}
+            onClick={() => setMenuOpen(false)}
+          >
+            <IconArchive />
+            Arsip
+          </NavLink>
         </nav>
 
-        {/* LOGOUT */}
-        <button
-          type="button"
-          className="admin-shell__logout"
-          onClick={handleLogout}
-        >
+        <button type="button" className="admin-shell__logout" onClick={handleLogout}>
+          <IconExit />
           Keluar
         </button>
-
       </aside>
 
-      {/* MAIN CONTENT */}
       <div className="admin-shell__main-col">
-
-        {/* TOPBAR MOBILE */}
         <header className="admin-shell__topbar">
-
           <div className="admin-shell__topbar-inner">
-
             <div className="admin-shell__menu-wrap">
-
               <button
                 type="button"
                 className="admin-shell__icon-btn"
                 aria-expanded={menuOpen}
                 aria-haspopup="true"
-                aria-label="Menu lainnya"
+                aria-label="Menu"
                 onClick={() => setMenuOpen((v) => !v)}
               >
-                <IconDots />
+                <IconHamburger />
               </button>
-
-              {menuOpen ? (
-                <div className="admin-shell__popover" role="menu">
-
-                  <NavLink
-                    to="/profil"
-                    role="menuitem"
-                    className="admin-shell__popover-item"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Profil
-                  </NavLink>
-
-                  <button
-                    type="button"
-                    role="menuitem"
-                    className="admin-shell__popover-item"
-                    onClick={handleLogout}
-                  >
-                    Keluar
-                  </button>
-
-                </div>
-              ) : null}
 
             </div>
 
-            {/* MOBILE LOGO */}
-            <img
-              src={logo}
-              alt="ADUIN"
-              className="admin-shell__mobile-logo"
-            />
+            <span className="admin-shell__topbar-brand aduin-logo aduin-logo--small">ADUIN</span>
 
+            <span className="admin-shell__topbar-spacer" aria-hidden />
           </div>
-
         </header>
 
-        {/* PAGE CONTENT */}
         <main className="admin-shell__content">
           <Outlet />
         </main>
 
-        {/* BOTTOM NAV MOBILE */}
-        <nav className="admin-shell__bottom" aria-label="Navigasi bawah">
+        <footer className="admin-shell__footer">© 2026 ADUIN — Desa Canden. All rights reserved.</footer>
 
+        <nav className="admin-shell__bottom" aria-label="Navigasi bawah">
           <NavLink
             to="/dashboard"
             end
-            className={({ isActive }) =>
-              `admin-shell__bottom-link${isActive ? ' active' : ''}`
-            }
+            className={({ isActive }) => `admin-shell__bottom-link${isActive ? ' active' : ''}`}
           >
             <IconReports />
             <span>Laporan</span>
           </NavLink>
 
-          <NavLink
-            to="/profil"
-            className={({ isActive }) =>
-              `admin-shell__bottom-link${isActive ? ' active' : ''}`
-            }
-          >
-            <IconSettings />
-            <span>Pengaturan</span>
+          <NavLink to="/arsip" className={({ isActive }) => `admin-shell__bottom-link${isActive ? ' active' : ''}`}>
+            <IconArchive />
+            <span>Arsip</span>
           </NavLink>
 
+          <NavLink to="/profil" className={({ isActive }) => `admin-shell__bottom-link${isActive ? ' active' : ''}`}>
+            <IconUser />
+            <span>Profil</span>
+          </NavLink>
         </nav>
-
       </div>
     </div>
   )

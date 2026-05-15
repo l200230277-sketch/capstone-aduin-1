@@ -43,15 +43,15 @@ body {
   min-height: 100svh;
   background: linear-gradient(
     to bottom,
-    #eef8fb 0%,
-    #f5faf9 55%,
-    #e5efe8 100%
+    #f3e3d052 0%,
+    #aacddc45 50%,
+    #81a6c63d 110%
   );
-  background-attachment: fixed;
 }
 
 #root {
   min-height: 100svh;
+  background: inherit;
 }
 
 a {

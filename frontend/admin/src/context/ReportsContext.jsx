@@ -21,10 +21,21 @@ export function ReportsProvider({ children }) {
 
   const stats = useMemo(() => {
     const total = reports.length
+    const belumDiterima = reports.filter(
+      (r) => r.status === 'Belum diterima',
+    ).length
+    const diterima = reports.filter((r) => r.status === 'Diterima').length
     const diproses = reports.filter((r) => r.status === 'Diproses').length
     const selesai = reports.filter((r) => r.status === 'Selesai').length
     const ditolak = reports.filter((r) => r.status === 'Ditolak').length
-    return { total, diproses, selesai, ditolak }
+    return {
+      total,
+      belumDiterima,
+      diterima,
+      diproses,
+      selesai,
+      ditolak,
+    }
   }, [reports])
 
   const value = useMemo(

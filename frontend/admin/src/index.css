@@ -1,18 +1,22 @@
-/* Global ADUIN admin theme — warm brown gradient, responsive base */
+/* Global ADUIN admin — sage green + cream (dashboard design) */
 :root {
-  --aduin-bg-topleft: #F3E3D0;
-  --aduin-bg-mid: #AACDDC;
-  --aduin-bg-bottom: #81A6C6;
-  --aduin-brown-dark: #D2C4B4;
-  --aduin-input-grey: rgb(77, 68, 68);
-  --aduin-brown-btn: #87B6BC;
-  --aduin-input: rgba(255, 245, 230, 0.35);
-  --aduin-input-border: rgba(255, 255, 255, 0.25);
-  --aduin-card-tan: rgba(17, 92, 105, 0.45);
-  --aduin-text: #524c4c;
-  --aduin-muted: rgba(255, 255, 255, 0.85);
-  --aduin-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
-  --aduin-radius: clamp(12px, 3vw, 18px);
+  --aduin-bg-topleft: #f9f7f2;
+  --aduin-bg-mid: #eef3ee;
+  --aduin-bg-bottom: #e4ebe4;
+  --aduin-sage: #5e8d7e;
+  --aduin-sage-dark: #3d6658;
+  --aduin-sage-soft: #a8c4b8;
+  --aduin-cream: #f3efe6;
+  --aduin-brown-dark: #ebe4d8;
+  --aduin-input-grey: #3a4540;
+  --aduin-brown-btn: #7aab9a;
+  --aduin-input: rgba(255, 255, 255, 0.85);
+  --aduin-input-border: rgba(94, 141, 126, 0.22);
+  --aduin-card-tan: #ffffff;
+  --aduin-text: #3a4540;
+  --aduin-muted: rgba(58, 69, 64, 0.72);
+  --aduin-shadow: 0 10px 28px rgba(62, 90, 78, 0.12);
+  --aduin-radius: clamp(14px, 3vw, 20px);
   --aduin-radius-pill: 999px;
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
@@ -36,17 +40,20 @@
 body {
   margin: 0;
   min-height: 100svh;
-  background: linear-gradient(
-    to bottom,
-    var(--aduin-bg-topleft) 0%,
-    var(--aduin-bg-mid) 50%,
-    var(--aduin-bg-bottom) 110%
-  );
+  background: var(--aduin-bg-topleft);
   background-attachment: fixed;
 }
 
 #root {
   min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
 }
 
 a {
